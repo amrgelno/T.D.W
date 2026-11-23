@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>فاتورة #{{ $order->id }}</title>
+
+  
+</head>
+
+<body>
+
+<div class="receipt-wrapper">
+
+    <div class="header">
+        <div class="store-name">nanocity</div>
+        <div class="invoice-title">فاتورة بيع</div>
+        <div>رقم الفاتورة: #{{ $order->id }}</div>
+        <div>{{ $order->created_at->format('Y-m-d h:i A') }}</div>
+    </div>
+
+    <div class="meta">
+        <div class="meta-row">
+            <span class="label">نوع الطلب</span>
+            <span class="value">
+                @if($order->type === 'delivery')
+                    توصيل
+                @elseif($order->type === 'takeaway')
+                    تيك أواي
+                @elseif($order->type === 'table')
+                    طاولة
+                @elseif($order->type === 'free_seating')
+                    جلوس حر
+                @else
+                    {{ $order->type }}
+                @endif
+            </span>
+        </div>
+
+        @if($order->table)
+            <div class="meta-row">
+                <span class="label">الطاولة</span>
+                <span class="value">{{ $order->table->name }}</span>
+            </div>
+        @endif
+
+        <div class="meta-row">
+            <span class="label">العميل</span>
+            <span class="value">{{ optional($order->customer)->name ?? $order->name ?? 'عام' }}</span>
+        </div>
+
+        <div class="meta-row">
+            <span class="label">الهاتف</span>
+            <span class="value">{{ optional($order->customer)->phone ?? $order->phone ?? '-' }}</span>
+        </div>
+
+        <div class="meta-row">
+            <span class="label">طريقة الدفع</span>
+            <span class="value">{{ $order->payment_method ?? '-' }}</span>
+        </div>
+    </div>
+
+    <div class="section-title">🧾 الأصناف</div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="width: 42%;">الصنف</th>
+                <th>الكمية</th>
+                <th>السعر</th>
+                <th>الإجمالي</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse($order->items as $item)
+                @php
+                    $productName = optional($item->product)->name ?? 'منتج';
+                    $sizeName = $item->size ?? null;
+                    $qty = $item->pivot->quantity;
+                    $price = $item->pivot->price;
+                    $rowTotal = $qty * $price;
+                @endphp
+
+                <tr>
+                    <td class="item-name">
+                        {{ $productName }}
+
+                        @if($sizeName)
+                            <span class="item-size">{{ $sizeName }}</span>
+                        @endif
+                    </td>
+                    <td>{{ $qty }}</td>
+                    <td>{{ number_format($price, 2) }}</td>
+                    <td>{{ number_format($rowTotal, 2) }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">لا توجد أصناف مسجلة على الفاتورة</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+
+    <div class="summary">
+        @if(($order->delivery_fee ?? 0) > 0)
+            <div class="summary-row">
+                <span>رسوم التوصيل</span>
+                <strong>{{ number_format($order->delivery_fee, 2) }} ج.م</strong>
+            </div>
+        @endif
+
+        <div class="summary-row total">
+            <span>الإجمالي</span>
+            <span>{{ number_format($order->total_price, 2) }} ج.م</span>
+        </div>
+
+        <div class="summary-row">
+            <span>المدفوع</span>
+            <strong>{{ number_format($order->paid_amount ?? 0, 2) }} ج.م</strong>
+        </div>
+
+        <div class="summary-row">
+            <span>الباقي</span>
+            <strong>{{ number_format($order->change_amount ?? 0, 2) }} ج.م</strong>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="thanks">شكراً لزيارتكم</div>
+        <small>نتمنى لكم يوماً سعيداً</small>
+    </div>
+
+    <div class="no-print">
+        <button class="btn btn-print" onclick="window.print()">طباعة</button>
+        <button class="btn btn-close" onclick="window.close()">إغلاق</button>
+    </div>
+
+</div>
+
+<script>
+    window.onload = function () {
+        setTimeout(function () {
+            window.print();
+        }, 700);
+    };
+</script>
+
+</body>
+</html>
