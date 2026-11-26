@@ -127,7 +127,7 @@ if(count($permissionsAthuser)=='0'){
          @$cash_transaction=transaction::where('classify','Cash')->get();
          @$Bank_transaction=transaction::where('classify','Bank')->get();
 
-dd('done');
+
          //$projects=projects::paginate(10,['id', 'title', 'Description', 'Deadline', 'Assigneduser', 'Assignedclient','status']);
 
          return view('Admin.Auth.dashboard',compact('users','customers','packages','logtimes','activitylogs','Allpermissions','Checks','bank','cash','journalentiry','Expenses','cash_transaction','Bank_transaction','selesreps','payments','receiptsholders','company','permissionsAthuser'));
