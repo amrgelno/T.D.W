@@ -18,10 +18,73 @@
 
     <!-- Styles -->
     <link href="{{asset('Front/css/auth.css') }}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <link href="{{asset('Front/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script> --}}
+
+    <script src="{{asset('Front/JS/bootstrap.bundle.min.js')}}" type="text/javascript"  ></script>
+
+
+    <script src="{{asset('Front/JS/jquery.slim.min.js')}}" type="text/javascript"  ></script>
+
+<script src="{{ asset('Front/JS/sweetalert2@11.js') }}" type="text/javascript" ></script>
+
+  <link href="{{asset('Front/css/all.min.css') }}" rel="stylesheet"  type="text/css"  >
+
+
+   <link href="{{asset('Front/css/normalize.css') }}" rel="stylesheet"  type="text/css"  >
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous"> --}}
 </head>
+
+<style>
+
+
+body {
+
+
+background: url('{{ config('app.url') }}/Front/IMG/Travel Dynamic Window.png') no-repeat center center fixed;
+ background-size: cover;
+
+}
+
+
+.card-header {
+
+    font-weight: bold;
+    color: #633800;
+    text-align: center;
+}
+
+
+.card {
+
+    background-color: #eaeaea33;
+    background-clip: border-box;
+    border: 3px solid rgb(108 108 108 / 92%);
+    border-radius: .25rem;
+}
+
+
+.justify-content-center {
+    font-weight: bolder;
+}
+
+#app{
+
+opacity: 0.7;
+
+}
+
+</style>
+
+
+
+
+
+
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -45,19 +108,19 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('user.Login') }}">{{ __('user Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('user.register') }}">{{ __('user Register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::User()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
