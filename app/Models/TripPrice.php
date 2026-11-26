@@ -12,7 +12,7 @@ class TripPrice extends Model
     //use Notifiable;
    use HasFactory;
 
-    protected $table = 'TripPrice';
+    protected $table = 'tripprice';
 
      protected $fillable = ['id', 'Total_price', 'Single_Room_cost', 'Duplex_Room_cost', 'Triple_Room_cost', 'costperperson','Transporter_Cost', 'insurance', 'airline', 'visa', 'packages_id', 'Transaction_id', 'user_id'];
 
